@@ -34,6 +34,7 @@ class Term {
         }
     }
 
+
     Fraction getCoefficient(){
         return coefficient;
     }
@@ -105,10 +106,29 @@ class Term {
         }
     }
 
+    Term multiply(Term other) throws IllegalArgumentException{
+        if (this.variable.equals("") && !other.variable.equals("") || !this.variable.equals("") && other.variable.equals("") || this.variable.equals("") && other.variable.equals("")){
+            return new Term(this.coefficient.multiply(other.coefficient), this.variable + other.variable);
+        }
+        else{
+            throw new IllegalArgumentException("Cannot multiply two variable, not a linear equation.");
+        }
+    }
+
+    Term divide(Term other) throws IllegalArgumentException{
+        if (this.variable.equals("") && !other.variable.equals("") || !this.variable.equals("") && other.variable.equals("") || this.variable.equals("") && other.variable.equals("")){
+            return new Term(this.coefficient.divide(other.coefficient), this.variable + other.variable);
+        }
+        else{
+            throw new IllegalArgumentException("Cannot divide two variable, not a linear equation.");
+        }
+    }
+
     static String termRegex(){
         String decimal = "[0-9]+\\.[0-9]+";
         String whole = "[1-9][0-9]*";
-        return String.format("-{0,1}(%s|$s)[a-zA-Z]", decimal, whole);
+        String decimalOrWhole = String.format("-{0,1}(%s|$s)", decimal, whole);
+        return String.format("(%s){0,1}[a-zA-Z]", decimalOrWhole);
     }
 
     public static void main(String[] args) {

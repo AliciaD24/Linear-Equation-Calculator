@@ -34,7 +34,6 @@ class Term {
         }
     }
 
-
     Fraction getCoefficient(){
         return coefficient;
     }
@@ -71,8 +70,14 @@ class Term {
     static Term valueOf(String str) throws IllegalArgumentException{
         if (str.matches(termRegex())){
             String variable = str.substring(str.length() - 1);
-            if (str.length() == 1){
+            if (str.matches("[a-zA-Z]")){
                 return new Term(1, variable);
+            }
+            else if (str.matches("-[a-zA-Z]")){
+                return new Term(-1, variable);
+            }
+            else if (!str.matches(".*[a-zA-Z]")){
+                return new Term(Fraction.valueOf(str), "");
             }
             else{
                 Fraction coefficient = Fraction.valueOf(str.substring(0, str.length() - 1));
@@ -90,7 +95,11 @@ class Term {
 
     Term add(Term other) throws IllegalArgumentException{
         if (this.likeTerms(other)){
-            return new Term(this.coefficient.add(other.coefficient), this.variable);
+            Fraction newCoefficient = this.coefficient.add(other.coefficient);
+            if (newCoefficient.equals(new Fraction(0))){
+                return new Term(1, this.variable);
+            }
+            return new Term(newCoefficient, this.variable);
         }
         else {
             throw new IllegalArgumentException("Terms can only be added if they have the same variable.");
@@ -99,15 +108,24 @@ class Term {
 
     Term subtract(Term other) throws IllegalArgumentException{
         if (this.likeTerms(other)){
-            return new Term(this.coefficient.subtract(other.coefficient), this.variable);
+            Fraction newCoefficient = this.coefficient.subtract(other.coefficient);
+            if (newCoefficient.equals(new Fraction(0))){
+                return new Term(1, this.variable);
+            }
+            return new Term(newCoefficient, this.variable);
+            
         }
         else {
             throw new IllegalArgumentException("Terms can only be subtracted if they have the same variable.");
         }
     }
 
+    boolean canMultiplyOrDivide(Term other){
+        return this.variable.equals("") && !other.variable.equals("") || !this.variable.equals("") && other.variable.equals("") || this.variable.equals("") && other.variable.equals("");
+    }
+
     Term multiply(Term other) throws IllegalArgumentException{
-        if (this.variable.equals("") && !other.variable.equals("") || !this.variable.equals("") && other.variable.equals("") || this.variable.equals("") && other.variable.equals("")){
+        if (this.canMultiplyOrDivide(other)){
             return new Term(this.coefficient.multiply(other.coefficient), this.variable + other.variable);
         }
         else{
@@ -116,7 +134,7 @@ class Term {
     }
 
     Term divide(Term other) throws IllegalArgumentException{
-        if (this.variable.equals("") && !other.variable.equals("") || !this.variable.equals("") && other.variable.equals("") || this.variable.equals("") && other.variable.equals("")){
+        if (this.canMultiplyOrDivide(other)){
             return new Term(this.coefficient.divide(other.coefficient), this.variable + other.variable);
         }
         else{
@@ -125,12 +143,10 @@ class Term {
     }
 
     static String termRegex(){
-        String decimal = "[0-9]+\\.[0-9]+";
-        String whole = "[1-9][0-9]*";
-        String decimalOrWhole = String.format("-{0,1}(%s|$s)", decimal, whole);
-        return String.format("(%s){0,1}[a-zA-Z]", decimalOrWhole);
+        return String.format("-{0,1}(%s){0,1}[a-zA-Z]{0,1}", Fraction.fractionRegex("all"));
     }
 
     public static void main(String[] args) {
+        System.out.println(termRegex());
     }
 }

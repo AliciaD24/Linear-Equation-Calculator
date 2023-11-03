@@ -252,7 +252,7 @@ class Fraction {
             return "-{0,1}[0-9]+\\.[0-9]+";
         }
         else{
-            return String.format("%s || %s || %s || %s", mixedFractionRegex, wholeFractionRegex, improperFractionRegex, decimalRegex);
+            return String.format("%s|%s|%s|%s", mixedFractionRegex, wholeFractionRegex, improperFractionRegex, decimalRegex);
         }
     }
 

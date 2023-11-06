@@ -59,8 +59,11 @@ class Term {
     }
 
     public String toString(){
-        if (coefficient.equals(new Fraction(1))){
+        if (coefficient.equals(new Fraction(1)) && !variable.equals("")){
             return variable;
+        }
+        if (coefficient.equals(new Fraction(-1)) && !variable.equals("")){
+            return "-" + variable;
         }
         else{
             return String.valueOf(coefficient) + variable;
@@ -68,7 +71,7 @@ class Term {
     }
 
     static Term valueOf(String str) throws IllegalArgumentException{
-        if (str.matches(termRegex())){
+        if (str.matches(termRegexBoth())){
             String variable = str.substring(str.length() - 1);
             if (str.matches("[a-zA-Z]")){
                 return new Term(1, variable);
@@ -129,7 +132,7 @@ class Term {
             return new Term(this.coefficient.multiply(other.coefficient), this.variable + other.variable);
         }
         else{
-            throw new IllegalArgumentException("Cannot multiply two variable, not a linear equation.");
+            throw new IllegalArgumentException("Cannot multiply two variables, not a linear equation.");
         }
     }
 
@@ -142,11 +145,19 @@ class Term {
         }
     }
 
-    static String termRegex(){
+    static String termRegexVariable(){
+        return String.format("-{0,1}(%s){0,1}[a-zA-Z]", Fraction.fractionRegex("all"));
+    }
+
+    static String termRegexConstant(){
+        return String.format("-{0,1}(%s){0,1}", Fraction.fractionRegex("all"));
+    }
+    static String termRegexBoth(){
         return String.format("-{0,1}(%s){0,1}[a-zA-Z]{0,1}", Fraction.fractionRegex("all"));
     }
 
     public static void main(String[] args) {
-        System.out.println(termRegex());
+        System.out.println(termRegexBoth());
+        System.out.println(new Term(new Fraction(1,2,3), "x").add(new Term(new Fraction(-4, 5), "x")));
     }
 }

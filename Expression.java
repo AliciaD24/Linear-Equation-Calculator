@@ -37,6 +37,12 @@ class Expression {
     }
 
     public String toString(){
+        if (constantTerm.getCoefficient().equals(new Fraction(0))){
+            return variableTerm.toString();
+        }
+        else if (variableTerm.getCoefficient().equals(new Fraction(0))){
+            return constantTerm.toString();
+        }
         if (constantTerm.toString().substring(0, 1).equals("-")){
             return String.format("%s - %s", variableTerm.toString(), constantTerm.toString().substring(1));
         }
@@ -63,16 +69,16 @@ class Expression {
         }
     }
 
-    static String expressionRegex(){
+    private static String expressionRegex(){
         return String.format("(%s)( [\\+-] (%s))*", Term.termRegexVariable(), Term.termRegexConstant());
     }
 
-    static String expressionRegexGeneral(){
+    static String expressionRegexMultDiv(){
         return String.format("(%s)( [\\+\\*\\/-] (%s))*", Term.termRegexBoth(), Term.termRegexBoth());
     }
 
     private static String lastTerm(String str) throws IllegalArgumentException{
-        if (!str.matches(expressionRegexGeneral())){
+        if (!str.matches(expressionRegexMultDiv())){
             throw new IllegalArgumentException("Not a valid expression");
         }
         Scanner expression  = new Scanner(str);
@@ -86,7 +92,7 @@ class Expression {
     }
 
     private static String firstTerm(String str) throws IllegalArgumentException{
-        if (!str.matches(expressionRegexGeneral())){
+        if (!str.matches(expressionRegexMultDiv())){
             throw new IllegalArgumentException("Not a valid expression");
         }
         Scanner expression  = new Scanner(str);
@@ -112,7 +118,7 @@ class Expression {
     }
 
     private static String multAndDivide(String str){
-        if (!str.matches(expressionRegexGeneral())){
+        if (!str.matches(expressionRegexMultDiv())){
             throw new IllegalArgumentException("Not a valid expression");
         }
         Scanner expression = new Scanner(str);
@@ -130,12 +136,12 @@ class Expression {
         Term resultingTerm = resultingTerm(firstTerm, secondTerm, getOperator(str, firstPortion));
         String endOfExpression = str.substring(firstPortion.length() + firstTerm(secondPortion).length() + 3);
         expression.close();
-        String newFirstPart = firstPortion.replace(lastTerm(firstPortion).toString(), "");
+        String newFirstPart = firstPortion.substring(0, firstPortion.length() - lastTerm(firstPortion).length());
         return newFirstPart + resultingTerm.toString() + endOfExpression;
     }
 
     private static String evaluateMultAndDivision(String str) throws IllegalArgumentException{
-        if (!str.matches(expressionRegexGeneral())){
+        if (!str.matches(expressionRegexMultDiv())){
             throw new IllegalArgumentException("Not a valid expression");
         }
         String initialExpression = str;
@@ -167,7 +173,7 @@ class Expression {
         }
     }
 
-    static Expression collectLikeTerms(String str) throws IllegalArgumentException{
+    private static Expression collectLikeTerms(String str) throws IllegalArgumentException{
         str = str.replace(" - ", " - -").replace(" + ", " + +");
         Scanner expression = new Scanner(str);
         expression.useDelimiter(" [\\+-] ");
@@ -206,6 +212,9 @@ class Expression {
 
     private static Term evaluateCollectingTerms(String str){
         String initialString = str;
+        if (str.equals("")){
+            return new Term(0, "");
+        }
         if (str.substring(0, 1).matches("[\\+]")){
             str = str.substring(1);
         }
@@ -221,10 +230,6 @@ class Expression {
     }
 
     public static void main(String[] args) {
-        System.out.println(simplifyFully("-2x + 5x - 7 + 8 * 4x - 8x + 9")); // 27x + 2
-        System.out.println(simplifyFully("3y * 4 - 12y + 36 / 6 * 2 - 4y * 3 + 18y")); // 6y + 12
-        System.out.println(simplifyFully("8 * 8t - 12 + 34/2t / 2 + t - 8 - 6/2t")); // 70 1/2t - 20
-        System.out.println(simplifyFully("4/3 - 8/2 * 6/9 / 3/7W - 8W * 2")); // -22 2/9W + 1 1/3
-        System.out.println(simplifyFully("12.3 * 4p - 12/2p * 8 / 3/2 + 2.4")); // 17 1/5p + 2 2/5
+        System.out.println(Expression.simplifyFully("9/3 + 3 * 4/8 * 12 - 19 + 93 - 2 / 5")); // 94 3/5
     }
 }

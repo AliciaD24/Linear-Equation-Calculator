@@ -92,7 +92,7 @@ class Term {
         }
     }
 
-    boolean likeTerms(Term other){
+    private boolean likeTerms(Term other){
         return this.variable.equals(other.variable);
     }
 
@@ -100,7 +100,7 @@ class Term {
         if (this.likeTerms(other)){
             Fraction newCoefficient = this.coefficient.add(other.coefficient);
             if (newCoefficient.equals(new Fraction(0))){
-                return new Term(1, this.variable);
+                return new Term(0, this.variable);
             }
             return new Term(newCoefficient, this.variable);
         }
@@ -113,7 +113,7 @@ class Term {
         if (this.likeTerms(other)){
             Fraction newCoefficient = this.coefficient.subtract(other.coefficient);
             if (newCoefficient.equals(new Fraction(0))){
-                return new Term(1, this.variable);
+                return new Term(0, "");
             }
             return new Term(newCoefficient, this.variable);
             
@@ -123,7 +123,7 @@ class Term {
         }
     }
 
-    boolean canMultiplyOrDivide(Term other){
+    private boolean canMultiplyOrDivide(Term other){
         return this.variable.equals("") && !other.variable.equals("") || !this.variable.equals("") && other.variable.equals("") || this.variable.equals("") && other.variable.equals("");
     }
 
@@ -156,8 +156,11 @@ class Term {
         return String.format("-{0,1}(%s){0,1}[a-zA-Z]{0,1}", Fraction.fractionRegex("all"));
     }
 
+    static boolean isTerm(String str){
+        return str.matches(termRegexBoth());
+    }
+
     public static void main(String[] args) {
-        System.out.println(termRegexBoth());
-        System.out.println(new Term(new Fraction(1,2,3), "x").add(new Term(new Fraction(-4, 5), "x")));
+        System.out.println(new Term(new Fraction(1), "x").subtract(new Term(new Fraction(1), "x")));
     }
 }

@@ -68,7 +68,7 @@ class Fraction {
      * @param num2 represents the second of the two denominators
      * @return returns the greatest common denominator between the two denominators
      */
-    static int gcd(int num1, int num2){
+    private static int gcd(int num1, int num2){
         if (num1 == 0 || num2 == 0){
             return Math.max(Math.abs(num1), Math.abs(num2));
         }
@@ -85,7 +85,7 @@ class Fraction {
      * @return returns the simplified version of the numerator using the denominator
      * @throws IllegalArgumentException throws the exception if the denominator is 0
      */
-    static int getSimplifiedNumerator(int numerator, int denominator) throws IllegalArgumentException{
+    private static int getSimplifiedNumerator(int numerator, int denominator) throws IllegalArgumentException{
         if (denominator == 0){
             throw new IllegalArgumentException("Denominator cannot be zero");
         }
@@ -102,7 +102,7 @@ class Fraction {
      * @param denominator represents the value of the original denominator
      * @return returns the simplified version of the numerator using the denominator
      */
-    static int getSimplifiedDenominator(int numerator, int denominator){
+    private static int getSimplifiedDenominator(int numerator, int denominator){
         return Math.abs(denominator) / gcd(numerator, denominator);
     }
 
@@ -176,20 +176,6 @@ class Fraction {
      */
     public Fraction clone(){
         return new Fraction(numerator, denominator);
-    }
-
-    /** Checks if the numerator is less than zero
-     * @return boolean true if less than zero
-     */
-    boolean lessThanZero(){
-        return numerator < 0;
-    }
-
-    /** Checks if the numerator is greater than zero
-     * @return boolean true if greater than zero
-     */
-    boolean greaterThanZero(){
-        return numerator > 0;
     }
 
     /** Adds two fractions together

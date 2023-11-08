@@ -1,7 +1,7 @@
 package DesigningClassesProject;
 
 class ExpressionTesting {
-    static void testValueOf(){
+    static void testValueOfAndToString(){
         System.out.println(Expression.valueOf("3x + 4")); // 3x + 4
         System.out.println(Expression.valueOf("4/3y + 12/2")); // 1 1/3y + 6
         System.out.println(Expression.valueOf("18Z - 45")); // 18Z - 45
@@ -15,6 +15,6 @@ class ExpressionTesting {
     }
     
     public static void main(String[] args) {
-        testValueOf();
+        testValueOfAndToString();
     }
 }

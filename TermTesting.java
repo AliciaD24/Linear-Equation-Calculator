@@ -2,7 +2,7 @@ package DesigningClassesProject;
 
 class TermTesting {
     
-    static void testValueOf(){
+    static void testValueOfAndToString(){
         System.out.println(Term.valueOf("x")); // x
         System.out.println(Term.valueOf("8")); // 8
         System.out.println(Term.valueOf("-l")); // -l
@@ -67,7 +67,7 @@ class TermTesting {
     }
 
     public static void main(String[] args) {
-        testValueOf();
+        testValueOfAndToString();
         testAdd();
         testSubtract();
         testMultiply();

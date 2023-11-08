@@ -38,6 +38,7 @@ class TermTesting {
         System.out.println(new Term(new Fraction(2973), "q").subtract(new Term(new Fraction(-12, 13), "q"))); // 2973 12/13q
         System.out.println(new Term(new Fraction(-87329), "w").subtract(new Term(new Fraction(-83), "w"))); // -87246w
         System.out.println(new Term(new Fraction(93, -5), "p").subtract(new Term(new Fraction(-56, -3), "p"))); // -37 4/15p
+        System.out.println(new Term(new Fraction(9, 3), "H").subtract(new Term(new Fraction(3), "H"))); // 0
     }
     
     static void testMultiply(){

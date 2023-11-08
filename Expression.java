@@ -37,7 +37,10 @@ class Expression {
     }
 
     public String toString(){
-        if (constantTerm.getCoefficient().equals(new Fraction(0))){
+        if (constantTerm.getCoefficient().equals(new Fraction(0)) && variableTerm.getCoefficient().equals(new Fraction(0))){
+            return "0";
+        }
+        else if (constantTerm.getCoefficient().equals(new Fraction(0))){
             return variableTerm.toString();
         }
         else if (variableTerm.getCoefficient().equals(new Fraction(0))){
@@ -53,15 +56,40 @@ class Expression {
 
     static Expression valueOf(String str) throws IllegalArgumentException{
         if (str.matches(expressionRegex())){
-            String varTerm = str.split(" [\\+-] ")[0];
-            String constant = str.split(" [\\+-] ")[1];
-            if (str.substring(varTerm.length() + 1, varTerm.length() + 2).equals("-")){
-                if (constant.substring(0, 1).equals("-"))
-                    return new Expression(Term.valueOf(varTerm), Term.valueOf(constant).multiply(new Term(-1, "")));
+            String varTerm = "";
+            String constant = "";
+            if (str.matches(Term.termRegexBoth())){
+                if (str.matches(Term.termRegexVariable())){
+                    varTerm = str;
+                    constant = "0";
+                }
+                else{
+                    constant = str;
+                    varTerm = "0";
+                }
+            }
+            else{
+                if (str.split(" [\\+-] ")[0].matches(Term.termRegexVariable())){
+                    varTerm = str.split(" [\\+-] ")[0];
                 }
                 else {
-                    constant = "-" + str.split(" [\\+-] ")[1];
+                    constant = str.split(" [\\+-] ")[0];
                 }
+                if (str.split(" [\\+-] ")[1].matches(Term.termRegexConstant())){
+                    constant = str.split(" [\\+-] ")[1];
+                }
+                else {
+                    varTerm = str.split(" [\\+-] ")[1];
+                }
+                
+                if (str.substring(varTerm.length() + 1, varTerm.length() + 2).equals("-")){
+                    if (constant.substring(0, 1).equals("-"))
+                        return new Expression(Term.valueOf(varTerm), Term.valueOf(constant).multiply(new Term(-1, "")));
+                    }
+                    else {
+                        constant = "-" + str.split(" [\\+-] ")[1];
+                    }
+            }
             return new Expression(Term.valueOf(varTerm), Term.valueOf(constant));
         }
         else {
@@ -70,7 +98,7 @@ class Expression {
     }
 
     private static String expressionRegex(){
-        return String.format("(%s)( [\\+-] (%s))*", Term.termRegexVariable(), Term.termRegexConstant());
+        return String.format("((%s)( [\\+-] (%s))*)|((%s)( [\\+-] (%s))*)", Term.termRegexVariable(), Term.termRegexConstant(), Term.termRegexConstant(), Term.termRegexVariable());
     }
 
     static String expressionRegexMultDiv(){
@@ -230,6 +258,5 @@ class Expression {
     }
 
     public static void main(String[] args) {
-        System.out.println(Expression.simplifyFully("9/3 + 3 * 4/8 * 12 - 19 + 93 - 2 / 5")); // 94 3/5
     }
 }

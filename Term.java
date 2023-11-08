@@ -161,6 +161,5 @@ class Term {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Term(new Fraction(1), "x").subtract(new Term(new Fraction(1), "x")));
     }
 }

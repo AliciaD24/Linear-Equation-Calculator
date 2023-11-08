@@ -12,6 +12,7 @@ class ExpressionTesting {
         System.out.println(Expression.valueOf("34/4b + 92/100")); // 8 1/2b + 23/25
         System.out.println(Expression.valueOf("-5/65P + 4")); // -1/13P + 4
         System.out.println(Expression.valueOf("63W - -93/-3")); // 63W - 31
+        System.out.println(Expression.valueOf("15")); // 15
     }
 
     static void testSimplifyFully(){
@@ -25,6 +26,7 @@ class ExpressionTesting {
         System.out.println(Expression.simplifyFully("63g - 12g + 4.8g - 2/3g - 18/6g + 9/4g")); // 54 23/60g
         System.out.println(Expression.simplifyFully("4.8j * 3/4 + 12.9 - 0j + 18 - 12.4j - 18/4")); // -8 4/5j + 26 2/5
         System.out.println(Expression.simplifyFully("7 + 1/4B * 0.45 + 3/2B - 5/7B * 2.31")); // -3/80B + 7
+        System.out.println(Expression.simplifyFully("7 + 1/4B * 0.45 + 3/2B - 5/7B * 2.31 + 3/80B - 7")); // 0
     }
     
     public static void main(String[] args) {

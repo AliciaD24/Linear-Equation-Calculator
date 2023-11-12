@@ -1,6 +1,9 @@
 package DesigningClassesProject;
 
 class ExpressionTesting {
+    /**
+     * Tests Expression.valueOf() and Expression.toString()
+     */
     static void testValueOfAndToString(){
         System.out.println(Expression.valueOf("3x + 4")); // 3x + 4
         System.out.println(Expression.valueOf("4/3y + 12/2")); // 1 1/3y + 6
@@ -15,6 +18,9 @@ class ExpressionTesting {
         System.out.println(Expression.valueOf("15")); // 15
     }
 
+    /**
+     * Tests Expression.simplifyFully()
+     */
     static void testSimplifyFully(){
         System.out.println(Expression.simplifyFully("-2x + 5x - 7 + 8 * 4x - 8x + 9")); // 27x + 2
         System.out.println(Expression.simplifyFully("3y * 4 - 12y + 36 / 6 * 2 - 4y * 3 + 18y")); // 6y + 12
@@ -28,9 +34,26 @@ class ExpressionTesting {
         System.out.println(Expression.simplifyFully("7 + 1/4B * 0.45 + 3/2B - 5/7B * 2.31")); // -3/80B + 7
         System.out.println(Expression.simplifyFully("7 + 1/4B * 0.45 + 3/2B - 5/7B * 2.31 + 3/80B - 7")); // 0
     }
+
+    /**
+     * Tests Expression.simplifyFully() where the expression contains brackets.
+     */
+    static void testSimplifyFullyWithBrackets(){
+        System.out.println(Expression.simplifyFully("2(x - 3 + 2x - 3)")); // 6x + 12
+        System.out.println(Expression.simplifyFully("3 + 4(-3f - 3 + 2f - 3)")); // -4f + 27
+        System.out.println(Expression.simplifyFully("2(s - 3) / 4")); // 2s + 1 1/2
+        System.out.println(Expression.simplifyFully("3/4 - 2t * 3(4 - 3)")); // -6 + 3/4
+        System.out.println(Expression.simplifyFully("(4p - 12 * 2) - 3")); // 4p + 21
+        System.out.println(Expression.simplifyFully("4/2 * 3.5(j)")); // 7j
+        System.out.println(Expression.simplifyFully("3.4 - 2.8(6 - 7l)")); // 19 3/5l - 13 2/5
+        System.out.println(Expression.simplifyFully("4 - 2g(4.5 * 12 - 80)")); //52g + 4
+        System.out.println(Expression.simplifyFully("9q(5 - 7.9)")); // -26 1/10q
+        System.out.println(Expression.simplifyFully("18 * 42 / 6n(12)")); // 10 1/2n
+    }
     
     public static void main(String[] args) {
         testValueOfAndToString();
         testSimplifyFully();
+        testSimplifyFullyWithBrackets();
     }
 }

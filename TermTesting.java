@@ -2,6 +2,9 @@ package DesigningClassesProject;
 
 class TermTesting {
     
+    /**
+     * Tests the Term.valueOf() and Term.toString() methods
+     */
     static void testValueOfAndToString(){
         System.out.println(Term.valueOf("x")); // x
         System.out.println(Term.valueOf("8")); // 8
@@ -15,6 +18,9 @@ class TermTesting {
         System.out.println(Term.valueOf("4/5z")); // 4/5z
     }
 
+    /**
+     * Tests the Term.add() method
+     */
     static void testAdd(){
         System.out.println(new Term(new Fraction(2, 3, 3), "x").add(new Term(new Fraction(2), "x"))); // 5x
         System.out.println(new Term(new Fraction(121, 4), "d").add(new Term(new Fraction(3, 4), "d"))); // 31d
@@ -27,6 +33,10 @@ class TermTesting {
         System.out.println(new Term(new Fraction(-87329), "w").add(new Term(new Fraction(-83), "w"))); // -87412w
         System.out.println(new Term(new Fraction(93, -5), "p").add(new Term(new Fraction(-56, -3), "p"))); // 1/15p
     }
+
+    /**
+     * Tests the Term.subtract() method
+     */
     static void testSubtract(){
         System.out.println(new Term(new Fraction(2, 3, 3), "x").subtract(new Term(new Fraction(2), "x"))); // x
         System.out.println(new Term(new Fraction(121, 4), "d").subtract(new Term(new Fraction(3, 4), "d"))); // 29 1/2d
@@ -41,6 +51,9 @@ class TermTesting {
         System.out.println(new Term(new Fraction(9, 3), "H").subtract(new Term(new Fraction(3), "H"))); // 0
     }
     
+    /**
+     * Tests the Term.multiply() method
+     */
     static void testMultiply(){
         System.out.println(new Term(new Fraction(2, 3, 3), "x").multiply(new Term(new Fraction(2), ""))); // 6x
         System.out.println(new Term(new Fraction(121, 4), "").multiply(new Term(new Fraction(3, 4), "d"))); // 22 11/16d
@@ -51,9 +64,12 @@ class TermTesting {
         System.out.println(new Term(new Fraction(9, -3), "z").multiply(new Term(new Fraction(9, 19), ""))); // -1 8/19z
         System.out.println(new Term(new Fraction(2973), "").multiply(new Term(new Fraction(-12, 13), "q"))); // -2744 4/13q
         System.out.println(new Term(new Fraction(-873), "").multiply(new Term(new Fraction(-83), "w"))); // 72459w
-        System.out.println(new Term(new Fraction(93, -5), "").multiply(new Term(new Fraction(-56, -3), "p"))); // -347 1/5p
+        System.out.println(new Term(new Fraction(93, -5), "").multiply(new Term(new Fraction(56, -3), "p"))); // 347 1/5p
     }
 
+    /**
+     * Tests the Term.divide() method
+     */
     static void testDivide(){
         System.out.println(new Term(new Fraction(2, 3, 3), "x").divide(new Term(new Fraction(2), ""))); // 1 1/2x
         System.out.println(new Term(new Fraction(121, 4), "").divide(new Term(new Fraction(3, 4), "d"))); // 40 1/3d
